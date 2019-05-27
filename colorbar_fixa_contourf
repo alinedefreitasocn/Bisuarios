@@ -1,0 +1,29 @@
+   # Estavamos tendo dificuldades com a colorbar no contourf. 
+   # Mesmo definindo vmin e vmax no contourf, a colorbar ignorava os
+   # limites e ficava alterando nao só os valores como as cores
+   # Encontramos essa solução que resolveu nosso problema
+   # original no link:
+   # https://stackoverflow.com/questions/43150687/colorbar-limits-are-not-respecting-set-vmin-vmax-in-plt-contourf-how-can-i-more
+   # usamos a segunda solucao
+   
+   
+   plt.figure(figsize=[20,9])
+   ax = plt.axes(projection=ccrs.PlateCarree())
+   ax.coastlines(resolution='50m')
+   
+   # cria as divisoes da colorbar de acordo com o valor minimo e
+   # maximo da variavel K (a partir dos valores de K) com 10 divisoes
+   levels = np.linspace(K.values.min(), K.values.max(), 10)
+   
+   # inclui o levels no plot do contourf. 
+   # nao sei o que o extend faz, mas tava na solucao
+   CS = plt.contourf(K.longitude, 
+                     K.latitude,
+                     K.sel(time = tempo),
+                     levels=levels,
+                     linestyles='solid',
+                     cmap='coolwarm',
+                     extend='min')
+   
+   # faz a colorbar
+   colorbar = plt.colorbar(CS)
