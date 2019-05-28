@@ -7,3 +7,8 @@ df[(df.index.hour > 13) & (df.index.hour < 18)]
 
 if x > y and x > z:
 if n % 3 == 0 and n % 5 == 0:
+
+# No DataFrame, pode usar procurando determinados valores com o isin
+
+subsetDataFrame = dfObj[dfObj['Product'].isin(['Mangos', 'Grapes']) ]
+# nesse caso, procura 'Mangos' e 'Grapes' na coluna 'Product' do dfObj
