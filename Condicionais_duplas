@@ -1,0 +1,9 @@
+# Selecionando um período do DataFrame entre dois valores
+# Precisamos usar o & e colocar as condições entre parentesis
+
+df[(df.index.hour > 13) & (df.index.hour < 18)]
+
+# No if podemos usar simplesmente o and
+
+if x > y and x > z:
+if n % 3 == 0 and n % 5 == 0:
