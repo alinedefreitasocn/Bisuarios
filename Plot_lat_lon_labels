@@ -1,0 +1,13 @@
+# configurando os labels da lat lon pra aparecer soh na direita e em baixo
+import cartopy.crs as ccrs
+import cartopy.feature as cfeature
+
+plt.figure()
+ax = plt.axes(projection=ccrs.PlateCarree())
+ax.coastlines(resolution='50m')
+gl = ax.gridlines(crs=ccrs.PlateCarree(), linewidth=1, color='black', alpha=0.5, linestyle='--', draw_labels=True)
+gl.xlabels_top = False
+gl.ylabels_left = True
+gl.ylabels_right = False
+gl.xlines = True
+nsst036.sst.plot(vmin=vmin, vmax=vmax)
