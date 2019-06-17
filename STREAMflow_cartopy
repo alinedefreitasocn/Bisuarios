@@ -1,0 +1,35 @@
+# Nao sabemos bem o pq, mas só funcionou quando usamos o set_extend
+
+def make_map(projection=ccrs.PlateCarree(),
+            xlabels_top = False,
+            ylabels_left = True,
+            ylabels_right = False,
+            draw_labels=True):
+   fig = plt.figure(figsize = [16, 9])
+   ax = plt.axes(projection=ccrs.PlateCarree())
+   ax.coastlines(resolution='50m')
+   gl = ax.gridlines(crs=ccrs.PlateCarree(),
+                     linewidth=1,
+                     color='black',
+                     alpha=0.5,
+                     linestyle='--',
+                     draw_labels=draw_labels)
+   gl.xlabels_top = xlabels_top
+   gl.ylabels_left = ylabels_left
+   gl.ylabels_right = ylabels_right
+   gl.xlines = True
+   return fig, ax
+   
+
+make_map()
+
+# dadocortado usa apenas 1 nivel e um passo de tempo do arquivo nc
+# dimensoes de dadocortado: lat e lon
+ax = plt.gca()
+ax.set_extent([-60, -33, -32, -18], crs=ccrs.PlateCarree())
+ax.streamplot(dadocortado.longitude,
+              dadocortado.latitude,
+              dadocortado.u.values,
+              dadocortado.v.values
+              )
+plt.show()
