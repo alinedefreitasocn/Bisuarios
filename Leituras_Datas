@@ -1,0 +1,26 @@
+# Arquivo com ANo, Mes, Dia, Hora, Minuto e segundo separados por colunas. O ano ainda estava sem os digitos do milenio (2008 == 08)
+# e quando lia o arquivo ainda perdia o zero. Por isso tive que somar 2000 a coluna de ano.
+# para trasnformar num datetime, fiz depois da leitura do arquivo.
+
+ondas = pd.read_csv(file,
+                    sep=';',
+                    header=None,
+                    usecols=usecols,
+                    names=['Burst','Ano', 'Mes', 'Dia','Hora', 'Minuto',
+                           'Segundo', 'HM0', 'Tp', 'Dp', 'Tp_Sea', 'Dp_Sea',
+                           'Hs_Sea', 'Tp_swell', 'Dp_swell', 'Hs_swell',
+                           'H1_3', 'T1_3', 'Hmean', 'Tmean', 'H1_10', 'T1_10',
+                           'Dmean'],
+                    na_values=['-1', '-32768']
+                    )
+
+# somando 2000 na coluna de ano pra ficar com formato certo de ano
+ondas.Ano = ondas.Ano + 2000
+
+# Criando vetor datahora
+datahora =pd.to_datetime(ondas.Ano*100000000+
+                         ondas.Mes*1000000+
+                         ondas.Dia*10000+
+                         ondas.Hora*100+
+                         ondas.Minuto, format='%Y%m%d%H%M')
+                         
