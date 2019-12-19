@@ -1,0 +1,25 @@
+# from: https://ipython-books.github.io/103-computing-the-autocorrelation-of-a-time-series/
+
+import io
+import requests
+import zipfile
+url = ('https://github.com/ipython-books/'
+       'cookbook-2nd-data/blob/master/'
+       'babies.zip?raw=true')
+r = io.BytesIO(requests.get(url).content)
+zipfile.ZipFile(r).extractall('babies')
+
+#########################################################
+
+files = [file for file in os.listdir('babies')
+         if file.startswith('yob')]
+years = np.array(sorted([int(file[3:7])
+                         for file in files]))
+data = {year:
+        pd.read_csv('babies/yob%d.txt' % year,
+                    index_col=0, header=None,
+                    names=['First name',
+                           'Gender',
+                           'Number'])
+        for year in years}
+data[2016].head()
