@@ -23,4 +23,12 @@ datahora =pd.to_datetime(ondas.Ano*100000000+
                          ondas.Dia*10000+
                          ondas.Hora*100+
                          ondas.Minuto, format='%Y%m%d%H%M')
-                         
+
+
+# Arquivo com data e hora em colunas separadas. A hora estava em formato 2400. Dividindo por 100
+# vira um float. No pd.to_datetime so aceita string como entrada.
+
+hora = INMET.HORA/100
+datahora = pd.to_datetime(INMET['DATA'] + ' ' + 
+                          hora.astype(int).astype(str) +
+                          ':00:00')
