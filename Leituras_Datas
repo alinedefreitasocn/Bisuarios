@@ -17,6 +17,7 @@ ondas = pd.read_csv(file,
 # somando 2000 na coluna de ano pra ficar com formato certo de ano
 ondas.Ano = ondas.Ano + 2000
 
+#############################################################################################
 # Criando vetor datahora
 datahora =pd.to_datetime(ondas.Ano*100000000+
                          ondas.Mes*1000000+
@@ -24,7 +25,7 @@ datahora =pd.to_datetime(ondas.Ano*100000000+
                          ondas.Hora*100+
                          ondas.Minuto, format='%Y%m%d%H%M')
 
-
+#############################################################################################
 # Arquivo com data e hora em colunas separadas. A hora estava em formato 2400. Dividindo por 100
 # vira um float. No pd.to_datetime so aceita string como entrada.
 
@@ -32,3 +33,20 @@ hora = INMET.HORA/100
 datahora = pd.to_datetime(INMET['DATA'] + ' ' + 
                           hora.astype(int).astype(str) +
                           ':00:00')
+
+#############################################################################################
+# Ano, mes, dia em colunas diferentes
+simcosta = pd.read_csv(file,
+                       sep=',',
+                       parse_dates=[['YEAR', 'MONTH', 'DAY', 'HOUR',
+                                    'MINUTE', 'SECOND']],
+                       index_col=0,
+                       skiprows=15,
+                       header=0
+                       )
+
+simcosta.index = pd.to_datetime(simcosta.index, format='%Y %m %d %H %M %S')
+
+simcosta.index = simcosta.index.rename('datahora')
+simcosta.index = simcosta.index.tz_localize('UTC')
+simcosta.index = simcosta.index.tz_convert('America/Sao_Paulo')
