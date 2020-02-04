@@ -1,0 +1,33 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+from dateutil import tz 
+import matplotlib
+import os, sys
+
+path = (r'R:\Interno_mc_ocean\PROJETOS\TC_UFRJ_2018\temas_pesquisa'
+        r'\tema6 - potecial eolico offshore - perfil vento - AVAC'
+        r'\perfis vento luisao\PNBoia\Bsantos\\')
+
+
+files = os.listdir(path)
+
+
+data = {f[:-4]:
+            pd.read_csv(path + f,
+                       sep=',',
+                       parse_dates=[['yyyy', 'mm', 'dd', 'hour',
+                                    'min']],
+                       index_col=0,
+                       header=0,
+                       na_values=-99999,
+                       skipinitialspace=True
+                       )
+            for f in files}
+    
+for key in data.keys():
+    data[key].index = pd.to_datetime(data[key].index, 
+                                            format='%Y %m %d %H %M')
+
+    data[key].index = data[key].index.rename('datahora')
+    data[key].index = data[key].index.tz_localize('UTC')
+    data[key].index = data[key].index.tz_convert('America/Sao_Paulo')
